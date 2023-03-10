@@ -27,6 +27,7 @@ export class AppComponent {
   public target: CdkDropList;
   public targetIndex: number;
   public source: CdkDropList;
+  public drag;
   public sourceIndex: number;
   public dragIndex: number;
   public activeContainer;
@@ -88,10 +89,8 @@ export class AppComponent {
   }
 
   dropListEnterPredicate = (drag: CdkDrag, drop: CdkDropList) => {
-    console.log(
-      drag.element.nativeElement.offsetLeft,
-      drag.element.nativeElement.offsetTop
-    );
+    console.log(this.placeholder, drop, drag);
+    this.drag = drag;
     if (drop == this.placeholder) return true;
 
     if (drop != this.activeContainer) return false;
@@ -113,9 +112,9 @@ export class AppComponent {
       phElement.style.width = sourceElement.clientWidth + 'px';
       phElement.style.height = sourceElement.clientHeight + 'px';
 
-      sourceElement.parentElement.removeChild(sourceElement);
+      drag.dropContainer._dropListRef.exit(drag._dragRef);
+      // sourceElement.parentElement.removeChild(sourceElement);
     }
-
     this.targetIndex = dropIndex;
     this.target = drop;
 
@@ -124,12 +123,8 @@ export class AppComponent {
       phElement,
       dropIndex > dragIndex ? dropElement.nextSibling : dropElement
     );
+    this.placeholder._dropListRef.enter(drag._dragRef, 0, 0, 0);
 
-    drop._dropListRef.enter(
-      drag._dragRef,
-      drag.element.nativeElement.offsetLeft,
-      drag.element.nativeElement.offsetTop
-    );
     return false;
   };
 
