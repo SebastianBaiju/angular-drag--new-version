@@ -59,7 +59,7 @@ export class AppComponent {
 
     this.listGroup._items.forEach((dropList) => {
       if (__isInsideDropListClientRect(dropList, point.x, point.y)) {
-        this.activeContainer = dropList._dropListRef;
+        this.activeContainer = dropList;
         return;
       }
     });
@@ -92,9 +92,9 @@ export class AppComponent {
       drag.element.nativeElement.offsetLeft,
       drag.element.nativeElement.offsetTop
     );
-    if (drop._dropListRef == this.placeholder._dropListRef) return true;
+    if (drop == this.placeholder) return true;
 
-    if (drop._dropListRef != this.activeContainer) return false;
+    if (drop != this.activeContainer) return false;
 
     let phElement = this.placeholder.element.nativeElement;
     let sourceElement = drag.dropContainer.element.nativeElement;
@@ -125,11 +125,11 @@ export class AppComponent {
       dropIndex > dragIndex ? dropElement.nextSibling : dropElement
     );
 
-    // this.placeholder._dropListRef.enter(
-    //   drag._dragRef,
-    //   drag.element.nativeElement.offsetLeft,
-    //   drag.element.nativeElement.offsetTop
-    // );
+    drop._dropListRef.enter(
+      drag._dragRef,
+      drag.element.nativeElement.offsetLeft,
+      drag.element.nativeElement.offsetTop
+    );
     return false;
   };
 
