@@ -54,6 +54,7 @@ export class AppComponent {
   }
 
   dragMoved(e: CdkDragMove) {
+    //console.log(e);
     let point = this.getPointerPositionOnPage(e.event);
 
     this.listGroup._items.forEach((dropList) => {
@@ -87,6 +88,10 @@ export class AppComponent {
   }
 
   dropListEnterPredicate = (drag: CdkDrag, drop: CdkDropList) => {
+    console.log(
+      drag.element.nativeElement.offsetLeft,
+      drag.element.nativeElement.offsetTop
+    );
     if (drop._dropListRef == this.placeholder._dropListRef) return true;
 
     if (drop._dropListRef != this.activeContainer) return false;
@@ -120,11 +125,11 @@ export class AppComponent {
       dropIndex > dragIndex ? dropElement.nextSibling : dropElement
     );
 
-    this.placeholder._dropListRef.enter(
-      drag._dragRef,
-      drag.element.nativeElement.offsetLeft,
-      drag.element.nativeElement.offsetTop
-    );
+    // this.placeholder._dropListRef.enter(
+    //   drag._dragRef,
+    //   drag.element.nativeElement.offsetLeft,
+    //   drag.element.nativeElement.offsetTop
+    // );
     return false;
   };
 
